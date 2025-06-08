@@ -1,0 +1,38 @@
+name: Build and Deploy Sphinx Docs
+
+on:
+  push:
+    branches:
+      - main # Trigger the workflow on pushes to the 'main' branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Action to check out your repository code
+
+      - name: Set up Python
+        uses: actions/setup-python@v5 # Action to set up Python
+        with:
+          python-version: '3.x' # Use the latest Python 3.x version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Install your project's Python dependencies 
+          pip install sphinx furo # Install Sphinx and the Furo theme
+
+      - name: Build Sphinx documentation
+        run: |
+          cd docs/ # Navigate into your docs directory
+          make html # Build the HTML documentation using your Makefile
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4 # Action to deploy to gh-pages branch
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
+          publish_dir: docs/_build/html # The directory containing your built HTML files
+          publish_branch: gh-pages # The branch to publish to (create if it doesn't exist)
+          cname: # Add your custom domain here if you have one, e.g., 'docs.yourdomain.com'
