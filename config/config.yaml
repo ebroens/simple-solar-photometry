@@ -1,0 +1,21 @@
+threshold: 150
+use_otsu: true
+morph_close: false
+include_bg: false
+bg_offset: 200
+bg_width: 200
+min_radius_threshold: 150
+export_flux: false
+export_electrons: false
+
+
+output_subdir: processed_zz_cgpt
+output_txt: image_data.txt
+plot_file: flux.png
+
+time_correction:
+  days: 0
+  hours: 0
+  minutes: 56
+  seconds: 11
+  sign: -1
